@@ -1,0 +1,38 @@
+<!DOCTYPE module PUBLIC
+        "-//Puppy Crawl//DTD Check Configuration 1.2//EN"
+        "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
+<module name="Checker">
+	<module name="TreeWalker">
+		<!-- Naming convention checker -->
+	    <module name="ConstantName"/>
+	    <module name="LocalFinalVariableName"/>
+	    <module name="LocalVariableName"/>
+	    <module name="MemberName">
+	        <property name="format" value="^[a-z_][a-zA-Z0-9_]*$"/>
+	    </module>
+	     <module name="MethodName">
+	         <property name="format" value="^[a-z_][a-zA-Z0-9_]*$"/>
+	     </module>
+	     <module name="MethodTypeParameterName"/>
+	     <module name="PackageName">
+	         <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
+	     </module>
+	     <module name="ParameterName"/>
+	     <module name="StaticVariableName"/>
+	     <module name="TypeName"/>
+	     <module name="ClassTypeParameterName">
+	         <property name="format" value="^[A-Z]+$"/>
+	     </module>
+	     <module name="InterfaceTypeParameterName">
+	         <property name="format" value="^[A-Z]+$"/>
+	     </module>
+	     <module name="MethodTypeParameterName">
+	         <property name="format" value="^[A-Z]+$"/>
+	     </module>
+     
+		<!-- restrict code length -->
+		<module name="MethodLength">
+		    <property name="max" value="60" />
+		</module>
+	</module>
+</module>

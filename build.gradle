@@ -1,0 +1,66 @@
+apply plugin: 'war'
+//apply plugin: 'checkstyle'
+
+//checkstyle {
+  //configFile = new File(rootDir, "etc/checkstyle.xml")
+//}
+
+//javadoc {
+	//source sourceSets.api.allJava
+//}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    jcenter()
+    mavenLocal()
+    mavenCentral()
+}
+
+//customize your war file name
+war {
+	archiveName 'rabbitmq-producer.war'
+}
+
+def springVersion='4.3.3.RELEASE'
+
+dependencies {
+	
+	providedCompile 'javax.servlet:servlet-api:2.5'
+    compile 'org.springframework:spring-webmvc:'+springVersion
+    compile 'org.slf4j:slf4j-api:1.7.21'
+    compile 'org.slf4j:slf4j-log4j12:1.7.21'
+    compile 'jstl:jstl:1.2'
+    compile 'org.springframework.amqp:spring-rabbit:1.6.3.RELEASE'
+    
+    //testing framework
+    compile 'org.testng:testng:6.8.8'
+    compile 'org.springframework:spring-test:4.0.5.RELEASE'
+}
+
+def TOMCAT_HOME = "F:/Environment/apache-tomcat-8.0.23"
+
+clean {
+    //delete project build lib dir war file
+    delete '${rootDir}\\build'
+    println "Deleted ${rootDir}\\build directory"
+}
+
+test {
+	//enable TestNG support (default is JUnit)
+	useTestNG();
+}
+
+task copyWar << {
+	println "Copy war from ${buildDir}\\libs into "+TOMCAT_HOME+"/webapps"
+    copy {
+        from "${buildDir}\\libs"
+        into TOMCAT_HOME+"/webapps"
+        include "*.war"
+    }
+}
+//copyWar.mustRunAfter build
+
+//callback after build
+build.finalizedBy(copyWar)
