@@ -1,9 +1,9 @@
 package com.sathish.messagebroker.config;
 
-import org.springframework.amqp.core.AmqpAdmin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.support.converter.DefaultClassMapper;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
@@ -16,6 +16,9 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource(value = "classpath:messagebroker.properties", ignoreResourceNotFound = true)
 public class RabbitMQConfiguration {
 
+	/** The logger */
+	private static final Logger logger = LoggerFactory.getLogger(RabbitMQConfiguration.class.getName());
+	
 	@Value("${com.sathish.rabbitmq.host:localhost}")
 	private String HOST_NAME;
 
@@ -30,6 +33,7 @@ public class RabbitMQConfiguration {
 	
 	@Bean
 	public ConnectionFactory connectionFactory() {
+		logger.info("Bean {} created ", ConnectionFactory.class.getName());
 		CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
 		connectionFactory.setHost(HOST_NAME);
 		connectionFactory.setPort(PORT_NUMBER);
@@ -39,19 +43,16 @@ public class RabbitMQConfiguration {
 	}
 
 	@Bean
-	public AmqpAdmin amqpAdmin() {
-		return new RabbitAdmin(connectionFactory());
-	}
-
-	@Bean
 	public MessageConverter jsonMessageConverter() {
+		logger.info("Bean {} created ", MessageConverter.class.getName());
 		final Jackson2JsonMessageConverter converter = new Jackson2JsonMessageConverter();
-	    converter.setClassMapper(classMapper());
+	    //converter.setClassMapper(classMapper());
 	    return converter;
 	}
-
+	
 	@Bean
     public DefaultClassMapper classMapper() {
+		logger.info("Bean {} created ", DefaultClassMapper.class.getName());
         DefaultClassMapper typeMapper = new DefaultClassMapper();
         return typeMapper;
     }

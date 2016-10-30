@@ -42,8 +42,10 @@ public class Response implements Serializable {
 		this.message = message;
 	}
 	
-	/*@Override
+	@Override
 	public String toString() {
-		return "";
-	}*/
+		return "{message:"+this.message+","+
+				"code:"+this.code+","+
+				"error:"+this.error+"}";
+	}
 }
